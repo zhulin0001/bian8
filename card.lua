@@ -11,7 +11,6 @@ end
 function Card:ctor(cardtype, value)
     self.cardtype = cardtype
     self.value = value
-    print('type ' .. self.cardtype .. ' value ' .. self.value)
 end
 
 --[[
