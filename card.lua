@@ -11,12 +11,15 @@ end
 function Card:ctor(cardtype, value)
     self.cardtype = cardtype
     self.value = value
+    print('type ' .. self.cardtype .. ' value ' .. self.value)
 end
 
+--[[
 function Card:ctor(joker)
     self.cardtype = joker 
     self.value = 0 
 end
+]]
 
 function Card:cardValue()
     return 13*(self.cardtype-1) + self.value
@@ -32,8 +35,10 @@ function Card:description()
         flag = '红桃'--'♥'
     elseif self.cardtype == CardTypeSpades then
         flag = '黑桃'--'♠'
-    elseif self.cardtype == CardTypeJoker then
-        flag = '王'
+    elseif self.cardtype == CardTypeBlackJoker then
+        flag = '小王'
+    elseif self.cardtype == CardTypeRedJoker then
+        flag = '大王'
     else
         flag = '错误'
     end 

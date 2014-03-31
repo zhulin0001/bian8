@@ -59,15 +59,16 @@ function GenerateCards(num)
         end
     end
     if num == 54 then
-        local card = Card.new(CardTypeBlackJoker)
+        local card = Card.new(CardTypeBlackJoker, CardTypeJoker)
         cards[card:cardValue()] = card:description()
-        local card = Card.new(CardTypeRedJoker)
+        local card = Card.new(CardTypeRedJoker, CardTypeJoker)
         cards[card:cardValue()] = card:description()
     end
+    return cards
 end
 
-local cards = GenerateCards(54)
-print_lua_table(cards)
+--local cards = GenerateCards(54)
+--print_lua_table(cards)
 --cards = ShuffleArray_Fisher_Yates(cards, 52)
 --print_lua_table(cards)
 
