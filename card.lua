@@ -21,7 +21,13 @@ end
 ]]
 
 function Card:cardValue()
-    return 13*(self.cardtype-1) + self.value
+    local value = 13*(self.cardtype-1) + self.value
+    if self.cardtype == CardTypeBlackJoker then
+       value = 53 
+   elseif self.cardtype == CardTypeRedJoker then
+       value = 54
+   end
+    return value
 end
 
 function Card:description()
