@@ -67,6 +67,13 @@ function GenerateCards(num)
     return cards
 end
 
+function DealCards(users, cardShoe)
+    for i = 1, INIT_CARDS do
+        for j = 1, #users do
+            users[j].cards[i] = cardShoe:getCard()
+        end
+    end
+end
 --local cards = GenerateCards(54)
 --print_lua_table(cards)
 --cards = ShuffleArray_Fisher_Yates(cards, 52)
