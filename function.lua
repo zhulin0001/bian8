@@ -74,8 +74,40 @@ function DealCards(users, cardShoe)
         end
     end
 end
---local cards = GenerateCards(54)
---print_lua_table(cards)
---cards = ShuffleArray_Fisher_Yates(cards, 52)
---print_lua_table(cards)
+
+function GetActiveUser(users)
+    local targetID = 0
+    for i = 1, #users do
+        if users[i].isActive then
+            targetID = i
+            users[i].isActive = false
+            break
+        end
+    end
+    if targetID == 0 then
+        --随机找个开始的人
+        math.randomseed(os.time())
+        local randid = math.floor(math.random() * 100000000) % #users + 1
+        targetID = randid
+    end
+
+    targetID = targetID % #users + 1
+    users[targetID].isActive = true
+
+    return targetID
+end
+
+function StartGame(users, cardShoe, cardTable)
+    DealCards(users, cardShoe)
+    local KeepGame = true
+    local test = 10
+    local FirstPublicCard = cardShoe:getCard()
+    cardTable:addCard(FirstPublicCard)
+    print('Pulic:')
+    print_lua_table(cardTable.cards)
+    while KeepGame do
+        local userid = GetActiveUser(users)
+        KeepGame = false
+    end
+end
 
