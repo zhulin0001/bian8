@@ -70,7 +70,7 @@ end
 function DealCards(users, cardShoe)
     for i = 1, INIT_CARDS do
         for j = 1, #users do
-            users[j].cards[i] = cardShoe:getCard()
+            users[j]:addCard(cardShoe:getCard())
         end
     end
 end
@@ -97,16 +97,52 @@ function GetActiveUser(users)
     return targetID
 end
 
+function CheckCall(cardA, cardB)
+    local result = false
+    if myCard.cardtype == topTableCard.cardType then
+        result = true
+    end
+    return result
+end
+
+function UserAction(users, cardTable, cardshoe)
+    local userid = GetActiveUser(users)
+    local topTableCard = cardTable.cards[#cardTable.cards]
+    local dropCardID = 0
+    local theUser = users[userid]
+    for i = 1, #users[userid].cards do
+        local myCard = theUser.cards[i]
+        if CheckCall(myCard, topTableCard) then
+            dropCardID = i
+            break
+        end
+    end
+    if dropCardID == 0 then
+        local needGetCard = true
+        while needGetCard do
+           theUser:addCard(cardshoe:getCard()) 
+           myCard = theUser.cards[#theUser.cards]
+           if CheckCall(myCard, topTableCard) then
+               dropCardID = #theUser.cards
+               needGetCard = false
+               break
+           end
+        end
+    end
+
+   theUser:dropCard(dropCardID) 
+end
+
 function StartGame(users, cardShoe, cardTable)
     DealCards(users, cardShoe)
     local KeepGame = true
     local test = 10
     local FirstPublicCard = cardShoe:getCard()
     cardTable:addCard(FirstPublicCard)
-    print('Pulic:')
-    print_lua_table(cardTable.cards)
+    cardTable:show()
+
     while KeepGame do
-        local userid = GetActiveUser(users)
+        UserAction(users, cardTable, cardShoe)
         KeepGame = false
     end
 end

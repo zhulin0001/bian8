@@ -3,22 +3,10 @@ require "enum"
 
 Card = class()
 
-function Card:ctor()
-    self.cardtype = 0 
-    self.value = 0 
-end
-
 function Card:ctor(cardtype, value)
     self.cardtype = cardtype
     self.value = value
 end
-
---[[
-function Card:ctor(joker)
-    self.cardtype = joker 
-    self.value = 0 
-end
-]]
 
 function Card:cardValue()
     local value = 13*(self.cardtype-1) + self.value
@@ -28,6 +16,10 @@ function Card:cardValue()
        value = 54
    end
     return value
+end
+
+function Card:dropCard(cardid)
+    
 end
 
 function Card:description()
