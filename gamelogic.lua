@@ -13,3 +13,4 @@ for i = 1, MAX_USER do
 end
 local cardShoe = CardShoes.new(cards)
 DealCards(users, cardShoe)
+print_lua_table(users)

@@ -8,8 +8,8 @@ function CardShoes:ctor(cards)
 end
 
 function CardShoes:getCard()
-    local card = self.cards[index]
-    index = index + 1
+    local card = self.cards[self.index]
+    self.index = self.index + 1
     return card
 end
 
