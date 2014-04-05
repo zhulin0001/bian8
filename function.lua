@@ -55,14 +55,14 @@ function GenerateCards(num)
     for i = 1,4 do
         for j = 1, 13 do
             local card = Card.new(i, j)
-            cards[card:cardValue()] = card:description()
+            cards[card:cardValue()] = card
         end
     end
     if num == 54 then
         local card = Card.new(CardTypeBlackJoker, CardTypeJoker)
-        cards[card:cardValue()] = card:description()
+        cards[card:cardValue()] = card
         local card = Card.new(CardTypeRedJoker, CardTypeJoker)
-        cards[card:cardValue()] = card:description()
+        cards[card:cardValue()] = card
     end
     return cards
 end
@@ -72,6 +72,10 @@ function DealCards(users, cardShoe)
         for j = 1, #users do
             users[j]:addCard(cardShoe:getCard())
         end
+    end
+    for j = 1, #users do
+        --print('玩家 ' .. j .. ' 的手牌是：')
+        --print_lua_table(users[j].cards)
     end
 end
 
@@ -94,12 +98,14 @@ function GetActiveUser(users)
     targetID = targetID % #users + 1
     users[targetID].isActive = true
 
+    print('轮到' .. targetID .. '出牌了')
     return targetID
 end
 
 function CheckCall(cardA, cardB)
+    print('Check: A is ' .. cardA:description() .. ' B is ' .. cardB:description())
     local result = false
-    if myCard.cardtype == topTableCard.cardType then
+    if cardA.cardtype == cardB.cardtype then
         result = true
     end
     return result
@@ -130,20 +136,23 @@ function UserAction(users, cardTable, cardshoe)
         end
     end
 
-   theUser:dropCard(dropCardID) 
+   local dropcard = theUser:dropCard(dropCardID) 
+   cardTable:addCard(dropcard)
 end
 
 function StartGame(users, cardShoe, cardTable)
     DealCards(users, cardShoe)
     local KeepGame = true
-    local test = 10
     local FirstPublicCard = cardShoe:getCard()
     cardTable:addCard(FirstPublicCard)
     cardTable:show()
 
     while KeepGame do
         UserAction(users, cardTable, cardShoe)
-        KeepGame = false
+        local read = io.read()
+        if read ~= 'g' then
+            KeepGame = false
+        end
     end
 end
 
