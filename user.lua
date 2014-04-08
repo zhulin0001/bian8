@@ -16,9 +16,22 @@ function User:addCard(card)
 end
 
 function User:showCards()
-    for i = 1, #self.cards do
-        print('第'.. i .. '张牌是：' .. self.cards[i]:description())
+    local MAX_CARD_IN_A_ROW = 16
+    local maxRow = math.modf(#self.cards/MAX_CARD_IN_A_ROW)
+    local minColumn = #self.cards % MAX_CARD_IN_A_ROW
+    
+    local output = ''
+    for i = 0, maxRow do
+        for j = 1, MAX_CARD_IN_A_ROW do
+            if i*MAX_CARD_IN_A_ROW+j <= #self.cards then
+                output = output .. self.cards[i*MAX_CARD_IN_A_ROW + j]:description() .. ' '
+            else
+                break
+            end
+        end
+        output = output .. '\n'
     end
+    print(output)
 end
 
 function User:isWin()

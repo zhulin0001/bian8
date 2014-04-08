@@ -4,18 +4,16 @@ require "function"
 GameTable = class()
 
 function GameTable:ctor()
-    self.cards = {}
+    self.topCard = nil
 end
 
 function GameTable:addCard(card)
-    self.cards[#self.cards+1] = card
+    local oldCard = self.topCard
+    self.topCard = card
+    return oldCard
 end
 
 function GameTable:show()
-    print('public')
-    for i = 1, #self.cards do
-        print('第'.. i .. '张牌是：' .. self.cards[i]:description())
-    end
-    print('')
+    print('Public: 当前牌是：' .. self.topCard:description() .. '\n')
 end
 

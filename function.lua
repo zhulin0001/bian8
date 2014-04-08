@@ -73,10 +73,12 @@ function DealCards(users, cardShoe)
             users[j]:addCard(cardShoe:getCard())
         end
     end
+    --[[
     for j = 1, #users do
-        --print('玩家 ' .. j .. ' 的手牌是：')
-        --print_lua_table(users[j].cards)
+        print('玩家 ' .. j .. ' 的手牌是：')
+        print_lua_table(users[j].cards)
     end
+    ]]
 end
 
 function GetActiveUser(users)
@@ -107,13 +109,15 @@ function CheckCall(cardA, cardB)
     local result = false
     if cardA.cardtype == cardB.cardtype then
         result = true
+    elseif cardA.value == cardB.value then
+        result = true
     end
     return result
 end
 
 function UserAction(users, cardTable, cardshoe)
     local userid = GetActiveUser(users)
-    local topTableCard = cardTable.cards[#cardTable.cards]
+    local topTableCard = cardTable.topCard
     local dropCardID = 0
     local theUser = users[userid]
     for i = 1, #users[userid].cards do
@@ -137,7 +141,9 @@ function UserAction(users, cardTable, cardshoe)
     end
 
    local dropcard = theUser:dropCard(dropCardID) 
-   cardTable:addCard(dropcard)
+   local oldCard = cardTable:addCard(dropcard)
+   cardshoe:addDropedCard(oldCard)
+   return theUser:isWin(), userid 
 end
 
 function StartGame(users, cardShoe, cardTable)
@@ -148,11 +154,17 @@ function StartGame(users, cardShoe, cardTable)
     cardTable:show()
 
     while KeepGame do
-        UserAction(users, cardTable, cardShoe)
+        local isWin, userid = UserAction(users, cardTable, cardShoe)
+        if isWin then
+            print('Win!!! The No.' .. userid .. ' User Won the Game!!')
+            KeepGame = false
+        end
+        --[[
         local read = io.read()
         if read ~= 'g' then
             KeepGame = false
         end
+        ]]
     end
 end
 

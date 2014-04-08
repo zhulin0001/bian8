@@ -18,20 +18,21 @@ function Card:cardValue()
     return value
 end
 
-function Card:dropCard(cardid)
-    
-end
 
 function Card:description()
     local flag = '未初始化'
     if self.cardtype == CardTypeDiamonds then
-        flag = '方块'--'♦'
+        --flag = '方块'--'♦'
+        flag = '♦'
     elseif self.cardtype == CardTypeClubs then
-        flag = '梅花'--'♣'
+        --flag = '梅花'--'♣'
+        flag = '♣'
     elseif self.cardtype == CardTypeHearts then
-        flag = '红桃'--'♥'
+        --flag = '红桃'--'♥'
+        flag = '♥'
     elseif self.cardtype == CardTypeSpades then
-        flag = '黑桃'--'♠'
+        --flag = '黑桃'--'♠'
+        flag = '♠'
     elseif self.cardtype == CardTypeBlackJoker then
         flag = '小王'
     elseif self.cardtype == CardTypeRedJoker then
