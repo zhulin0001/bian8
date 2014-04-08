@@ -6,6 +6,7 @@ CardShoes = class()
 function CardShoes:ctor(cards)
     self.cards = cards
     self.index = 1
+    self.dropedCards = {}
 end
 
 function CardShoes:getCard()
