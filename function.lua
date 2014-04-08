@@ -111,6 +111,10 @@ function CheckCall(cardA, cardB)
         result = true
     elseif cardA.value == cardB.value then
         result = true
+    elseif cardA.cardtype == CardTypeBlackJoker or cardA.cardtype == CardTypeRedJoker then
+        result = true
+    elseif cardA.value == 1 or cardA.value == 8 then
+        result = true
     end
     return result
 end
@@ -148,23 +152,33 @@ end
 
 function StartGame(users, cardShoe, cardTable)
     DealCards(users, cardShoe)
-    local KeepGame = true
     local FirstPublicCard = cardShoe:getCard()
     cardTable:addCard(FirstPublicCard)
     cardTable:show()
 
-    while KeepGame do
-        local isWin, userid = UserAction(users, cardTable, cardShoe)
-        if isWin then
-            print('Win!!! The No.' .. userid .. ' User Won the Game!!')
-            KeepGame = false
+    local gamecount = 1
+    local winer = {}
+    while gamecount <= 100 do
+        local KeepGame = true
+        while KeepGame do
+            local isWin, userid = UserAction(users, cardTable, cardShoe)
+            if isWin then
+                print('Win!!! The No.' .. userid .. ' User Won the Game!!')
+                KeepGame = false
+                gamecount = gamecount + 1
+                if winer[userid] == nil then
+                    winer[userid] = 0
+                end
+                winer[userid] = winer[userid] + 1
+            end
+            --[[
+            local read = io.read()
+            if read ~= 'g' then
+                KeepGame = false
+            end
+            ]]
         end
-        --[[
-        local read = io.read()
-        if read ~= 'g' then
-            KeepGame = false
-        end
-        ]]
     end
+    print_lua_table(winer)
 end
 
